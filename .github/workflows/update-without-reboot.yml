@@ -2,7 +2,10 @@ name: Update EC2 via SSM
 
 on:
   workflow_dispatch:
-
+   inputs:
+      instance-ids:
+        description: "Comma-separated EC2 Instance IDs"
+        required: true
 jobs:
   update-ec2:
    runs-on: ubuntu-latest  # Use GitHub-hosted runner
@@ -23,4 +26,4 @@ jobs:
         run: chmod +x patch_without_reboot.sh
 
       - name: Run shell script
-        run: ./patch_without_reboot.sh
+        run: ./patch_without_reboot.sh "${{ github.event.inputs.instance-ids }}"
