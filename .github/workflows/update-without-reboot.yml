@@ -5,9 +5,10 @@ on:
 
 jobs:
   update-ec2:
-    runs-on: [self-hosted, test]
+   runs-on: ubuntu-latest  # Use GitHub-hosted runner
 
-    steps:
+
+   steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
