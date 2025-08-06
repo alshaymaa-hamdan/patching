@@ -1,5 +1,5 @@
 #!/bin/bash
-region="us-east-1"
+region="us-west-2"
 source wait_for_status.sh
  
 # update without reboot
