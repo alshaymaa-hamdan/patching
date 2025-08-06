@@ -11,7 +11,7 @@ patch_command_id=$(aws ssm send-command --targets "Key=instanceIds,Values=$insta
 
 
 sleep 3
-ssmstatus=$(/usr/local/bin/aws ssm list-command-invocations --command-id $sh_command_id --details --query "CommandInvocations[*].StatusDetails[]" --output text)*
+ssmstatus=$(/usr/local/bin/aws ssm list-command-invocations --command-id $patch_command_id --details --query "CommandInvocations[*].StatusDetails[]" --output text)*
 sleep 3
  
 echo "Command ID $patch_command_id is initiated"
