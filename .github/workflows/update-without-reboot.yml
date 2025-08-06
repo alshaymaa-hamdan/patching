@@ -1,0 +1,21 @@
+name: Update EC2 via SSM
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance-id:
+        description: "EC2 Instance ID to update"
+        required: true
+jobs:
+  update-ec2:
+    runs-on: [self-hosted, test]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Make shell script executable
+        run: chmod +x patch_without_reboot.sh
+
+      - name: Run shell script
+        run: ./patch_without_reboot.sh
