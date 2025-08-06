@@ -9,3 +9,4 @@ patch_command_id=$(aws ssm send-command --targets "Key=instanceIds,Values=$insta
 
 #i-069eb22f4a5273497,i-035f2c3dc689f04fc
 
+echo "Command ID: $patch_command_id"
