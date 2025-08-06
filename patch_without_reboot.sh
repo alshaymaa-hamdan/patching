@@ -1,10 +1,11 @@
 #!/bin/bash
 region="us-west-2"
 source wait_for_status.sh
+instance_ids=$1
  
 # update without reboot
  
-patch_command_id=$(aws ssm send-command --targets "Key=instanceIds,Values=i-069eb22f4a5273497,i-035f2c3dc689f04fc" --document-name "AWS-InstallWindowsUpdates" --comment "Install Windows updates without reboot" --parameters '{"Action":["Install"],"AllowReboot":["True"]}' --region $region | jq -r '.Command.CommandId')
+patch_command_id=$(aws ssm send-command --targets "Key=instanceIds,Values=$instance_ids" --document-name "AWS-InstallWindowsUpdates" --comment "Install Windows updates without reboot" --parameters '{"Action":["Install"],"AllowReboot":["True"]}' --region $region | jq -r '.Command.CommandId')
  
 # Call the function from the source file
 waitforstatus Success $region $patch_command_id
