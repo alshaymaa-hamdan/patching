@@ -31,10 +31,10 @@ then
  
 waitforstatus Success $region $patch_command_id 
 fi
- 
-ssmstatus=$(/usr/local/bin/aws ssm list-command-invocations --command-id $patch_command_id --details --query "CommandInvocations[*].StatusDetails[]" --output text)
 
 doutput=$(/usr/local/bin/aws ssm list-command-invocations --command-id $patch_command_id --details --query "CommandInvocations[].CommandPlugins[*].[Output]" --output text)
+
+ssmstatus=$(/usr/local/bin/aws ssm list-command-invocations --command-id $patch_command_id --details --query "CommandInvocations[*].StatusDetails[]" --output text)
  
 printf "\nCommand ID $patch_command_id has finished with $ssmstatus\n"
 printf "\nDestination output:----------------------------------------------\n"
