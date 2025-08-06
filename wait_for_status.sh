@@ -8,7 +8,7 @@ waitforstatus () {
         sleep 5
         printf "Waiting for command to finish\n"
  
-        if [ $ssmstatus == "Failed" ];
+        if [ "$ssmstatus" == "Failed" ];
         then
         doutput=$(/usr/local/bin/aws ssm list-command-invocations --command-id $sh_command_id --details --query "CommandInvocations[].CommandPlugins[*].[Output]" --output text)*
         printf "\nCommand ID $sh_command_id has finished with following status: $ssmstatus\n"
