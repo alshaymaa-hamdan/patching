@@ -8,7 +8,7 @@ instance_ids=$1
 patch_command_id=$(aws ssm send-command --targets "Key=instanceIds,Values=$instance_ids" --document-name "AWS-InstallWindowsUpdates" --comment "Install Windows updates without reboot" --parameters '{"Action":["Install"],"AllowReboot":["True"]}' --region $region | jq -r '.Command.CommandId')
 
 
-
+#i-069eb22f4a5273497,i-035f2c3dc689f04fc
 
 sleep 3
 ssmstatus=$(/usr/local/bin/aws ssm list-command-invocations --command-id $patch_command_id --details --query "CommandInvocations[*].StatusDetails[]" --output text)*
