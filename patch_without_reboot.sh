@@ -11,7 +11,7 @@ patch_command_id=$(aws ssm send-command --targets "Key=instanceIds,Values=$insta
 #i-069eb22f4a5273497,i-035f2c3dc689f04fc
 
 sleep 3
-ssmstatus=$(/usr/local/bin/aws ssm list-command-invocations --command-id $patch_command_id --details --query "CommandInvocations[*].StatusDetails[]" --output text)*
+ssmstatus=$(/usr/local/bin/aws ssm list-command-invocations --command-id $patch_command_id --details --query "CommandInvocations[*].StatusDetails[]" --output text)
 sleep 3
  
 echo "Command ID $patch_command_id is initiated"
@@ -20,7 +20,7 @@ echo "Current command status: $ssmstatus "
  
 if [ "$ssmstatus" == "Failed" ];
 then
-doutput=$(/usr/local/bin/aws ssm list-command-invocations --command-id $patch_command_id --details --query "CommandInvocations[].CommandPlugins[*].[Output]" --output text)*
+doutput=$(/usr/local/bin/aws ssm list-command-invocations --command-id $patch_command_id --details --query "CommandInvocations[].CommandPlugins[*].[Output]" --output text)
 printf "\nCommand ID $patch_command_id has finished with following status: $ssmstatus\n"
 printf "\nDestination output:----------------------------------------------\n"
 printf "\n$doutput\n"
@@ -32,7 +32,7 @@ then
 waitforstatus Success $region $patch_command_id 
 fi
  
-ssmstatus=$(/usr/local/bin/aws ssm list-command-invocations --command-id $patch_command_id --details --query "CommandInvocations[*].StatusDetails[]" --output text)*
+ssmstatus=$(/usr/local/bin/aws ssm list-command-invocations --command-id $patch_command_id --details --query "CommandInvocations[*].StatusDetails[]" --output text)
 
 doutput=$(/usr/local/bin/aws ssm list-command-invocations --command-id $patch_command_id --details --query "CommandInvocations[].CommandPlugins[*].[Output]" --output text)
  
