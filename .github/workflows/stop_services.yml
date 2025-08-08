@@ -1,4 +1,4 @@
-name: Update EC2 via SSM
+name: Stop Services
 
 on:
   workflow_run:
