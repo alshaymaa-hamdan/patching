@@ -1,0 +1,29 @@
+name: reboot
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance-ids:
+        description: "Comma-separated EC2 Instance IDs"
+        required: true
+
+jobs:
+  stop-services:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2  # Change to your region
+
+      - name: Make shell script executable
+        run: chmod +x reboot.sh
+
+      - name: Run shell script
+        run: ./reboot.sh "${{ github.event.inputs.instance-ids }}"
