@@ -1,20 +1,20 @@
 name: Stop Services
 
 on:
-  workflow_run:
-    workflows: ["Update EC2 via SSM"]  # Must exactly match the name in workflow-1.yml
-    types:
-      - completed
+  workflow_dispatch:
+    inputs:
+      instance-ids:
+        description: "Comma-separated EC2 Instance IDs"
+        required: true
 
 jobs:
-  job-2:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  stop-services:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
