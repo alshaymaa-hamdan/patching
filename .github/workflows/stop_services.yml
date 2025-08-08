@@ -2,7 +2,7 @@ name: Update EC2 via SSM
 
 on:
   workflow_run:
-    workflows: ["Update EC2"]  # Must exactly match the name in workflow-1.yml
+    workflows: ["Update EC2 via SSM"]  # Must exactly match the name in workflow-1.yml
     types:
       - completed
 
