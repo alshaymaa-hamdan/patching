@@ -1,4 +1,4 @@
-name: Update EC2
+name: Patch
 
 on:
   workflow_dispatch:
