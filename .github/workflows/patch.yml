@@ -26,4 +26,4 @@ jobs:
         run: chmod +x patch_without_reboot.sh
 
       - name: Run shell script
-        run: ./patching.sh "${{ github.event.inputs.instance-ids }}"
+        run: ./patching.sh "${{ github.event.inputs.instance-id }}"
