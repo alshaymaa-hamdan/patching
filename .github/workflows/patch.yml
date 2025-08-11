@@ -23,7 +23,7 @@ jobs:
           aws-region: us-west-2  # Change to your region
 
       - name: Make shell script executable
-        run: chmod +x patch_without_reboot.sh
+        run: chmod +x patching.sh
 
       - name: Run shell script
         run: ./patching.sh "${{ github.event.inputs.instance-id }}"
