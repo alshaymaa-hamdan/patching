@@ -2,7 +2,7 @@ import boto3
 import sys
 import time
 
-def wait_for_ssm_command(command_id, region, instance_id=None, timeout=900):
+def wait_for_ssm_command(command_id, region, instance_id=None, timeout=3600):
     ssm = boto3.client("ssm", region_name=region)
 
     print(f"[INFO] Waiting for SSM command {command_id} to complete...")
