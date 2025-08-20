@@ -3,7 +3,7 @@ name: Patching-python
 on:
   workflow_dispatch:
     inputs:
-      instance-id:
+      InstanceID:
         description: "EC2 Instance ID to update"
         required: true
 jobs:
@@ -35,4 +35,4 @@ jobs:
 
           
       - name: Run python script
-        run: python patching-python.py "${{ github.event.inputs.instance-id }}"
+        run: python patching-python.py "${{ github.event.inputs.InstanceID }}"
