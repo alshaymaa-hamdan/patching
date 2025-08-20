@@ -3,7 +3,7 @@ import subprocess
 import sys
 import time
 import os
-from shared_jobs.wait_for_status import wait_for_ssm_command
+from wait_for_status import wait_for_ssm_command
  
 # Read environment variables (like your Bash script uses $InstanceID and $region)
 instance_id = os.getenv("InstanceID")
