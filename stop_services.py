@@ -7,7 +7,7 @@ from wait_for_status import wait_for_ssm_command
 # Jenkins will provide these as environment variables
 instance_ids = os.getenv("InstanceID")  # e.g. "i-0387b2fe22897d04a,i-0581419c27f336162"
 region = "us-west-2"
-instance_ids_list = [i.strip() for i in instance_id.split(",") if i.strip()]
+instance_ids_list = [i.strip() for i in instance_ids.split(",") if i.strip()]
 
 if not instance_ids:
     raise ValueError("Missing required environment variable: instance_ids")
