@@ -1,5 +1,4 @@
 name: reboot
-
 on:
   workflow_dispatch:
     inputs:
@@ -8,7 +7,7 @@ on:
         required: true
 
 jobs:
-  reboot:
+  stop-services:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,8 +21,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2  # Change to your region
 
-      - name: Make shell script executable
-        run: chmod +x reboot.sh
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"   # Or another stable version like 3.11
 
-      - name: Run shell script
-        run: ./reboot.sh "${{ github.event.inputs.instance-ids }}"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install boto3
+
+      - name: Run Python script
+        run: python reboot.py
+        env:
+          InstanceID: ${{ github.event.inputs.InstanceID }}
+          region: us-west-2
