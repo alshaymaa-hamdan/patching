@@ -1,5 +1,6 @@
 import boto3
 import os
+from wait_for_status import wait_for_ssm_command
  
 # Read environment variables
 instance_ids = os.getenv("InstanceID")  # expects comma-separated list
@@ -26,3 +27,4 @@ response = ssm.send_command(
 # Extract command ID
 command_id = response["Command"]["CommandId"]
 print(f"Command ID: {command_id}")
+wait_for_ssm_command(command_id,region)
