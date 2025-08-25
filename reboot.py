@@ -2,7 +2,7 @@ import boto3
 import os
  
 # Read environment variables
-instance_ids = os.getenv("instance_ids")  # expects comma-separated list
+instance_ids = os.getenv("InstanceID")  # expects comma-separated list
 region = "us-east-1"
  
 # Create SSM client
