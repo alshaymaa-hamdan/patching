@@ -5,7 +5,7 @@ import time
 def wait_for_ssm_command(command_id, region, instance_id=None, timeout=3600):
     ssm = boto3.client("ssm", region_name=region)
 
-    print(f"[INFO] Waiting for SSM command {command_id} to complete...")
+    print(f"[INFO] Waiting for SSM command {command_id} to complete...", flush=True)
 
     status = "InProgress"
     start_time = time.time()
@@ -18,10 +18,10 @@ def wait_for_ssm_command(command_id, region, instance_id=None, timeout=3600):
         resp = ssm.list_command_invocations(**kwargs)
 
         if not resp["CommandInvocations"]:
-            print("[WARN] No command invocation found yet, retrying...")
+            print("[WARN] No command invocation found yet, retrying...", flush=True)
         else:
             status = resp["CommandInvocations"][0]["Status"]
-            print(f"[INFO] Current status: {status}")
+            print(f"[INFO] Current status: {status}", flush=True)
 
         # Exit loop if finished
         if status not in ["InProgress", "Pending"]:
@@ -36,7 +36,7 @@ def wait_for_ssm_command(command_id, region, instance_id=None, timeout=3600):
     print(f"[INFO] Final status: {status}")
 
     if status != "Success":
-        print(f"[ERROR] The command failed with status: {status}")
+        print(f"[ERROR] The command failed with status: {status}", flush=True)
         sys.exit(1)
 
     # Fetch final output
