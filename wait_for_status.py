@@ -2,30 +2,25 @@ import boto3
 import sys
 import time
 
-def wait_for_ssm_command(command_id, region, instance_id=None, timeout=3600):
+def wait_for_ssm_command(command_id, region, instance_ids=None, timeout=3600):
     ssm = boto3.client("ssm", region_name=region)
 
-    print(f"[INFO] Waiting for SSM command {command_id} to complete...", flush=True)
+    print(f"[INFO] Waiting for SSM command {command_id} to complete on {instance_ids}", flush=True)
 
-    status = "InProgress"
     start_time = time.time()
+    statuses = {iid: "InProgress" for iid in instance_ids}
 
-    while status in ["InProgress", "Pending"]:
-        kwargs = {"CommandId": command_id, "Details": True}
-        if instance_id:
-            kwargs["InstanceId"] = instance_id  # Helps ensure we get results
+    while any(s in ["InProgress", "Pending"] for s in statuses.values()):
+        resp = ssm.list_command_invocations(
+            CommandId=command_id,
+            InstanceId=instance_ids[0] if len(instance_ids) == 1 else None,
+            Details=True
+        )
 
-        resp = ssm.list_command_invocations(**kwargs)
-
-        if not resp["CommandInvocations"]:
-            print("[WARN] No command invocation found yet, retrying...", flush=True)
-        else:
-            status = resp["CommandInvocations"][0]["Status"]
-            print(f"[INFO] Current status: {status}", flush=True)
-
-        # Exit loop if finished
-        if status not in ["InProgress", "Pending"]:
-            break
+        for invocation in resp["CommandInvocations"]:
+            iid = invocation["InstanceId"]
+            statuses[iid] = invocation["Status"]
+            print(f"[INFO] Instance {iid} status: {statuses[iid]}", flush=True)
 
         # Timeout safeguard
         if time.time() - start_time > timeout:
@@ -33,18 +28,10 @@ def wait_for_ssm_command(command_id, region, instance_id=None, timeout=3600):
 
         time.sleep(15)
 
-    print(f"[INFO] Final status: {status}")
+    print(f"[INFO] Final statuses: {statuses}")
 
-    if status != "Success":
-        print(f"[ERROR] The command failed with status: {status}", flush=True)
-        sys.exit(1)
-
-    # Fetch final output
-    if resp["CommandInvocations"]:
-        outputs = []
-        for invocation in resp["CommandInvocations"]:
-            for plugin in invocation.get("CommandPlugins", []):
-                if "Output" in plugin:
-                    outputs.append(plugin["Output"])
-        if outputs:
-            print("\n".join(outputs))
+    # Fail if any instance failed
+    for iid, st in statuses.items():
+        if st != "Success":
+            print(f"[ERROR] Instance {iid} failed with status: {st}", flush=True)
+            sys.exit(1)
