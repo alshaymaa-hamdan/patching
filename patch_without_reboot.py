@@ -5,7 +5,7 @@ from wait_for_status import wait_for_ssm_command
 # Read environment variables
 instance_ids = os.getenv("InstanceID")  # expects comma-separated list
 region = "us-west-2"
-instance_ids_list = [i.strip() for i in instance_id.split(",") if i.strip()]
+instance_ids_list = [i.strip() for i in instance_ids.split(",") if i.strip()]
 
 # Create SSM client
 ssm = boto3.client("ssm", region_name=region)
