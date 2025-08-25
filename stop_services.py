@@ -5,7 +5,7 @@ import json
 def main():
     # Jenkins will provide these as environment variables
     instance_ids = os.getenv("InstanceID")  # e.g. "i-0387b2fe22897d04a,i-0581419c27f336162"
-    region = os.getenv("region", "us-east-1")
+    region = "us-west-2"
  
     if not instance_ids:
         raise ValueError("Missing required environment variable: instance_ids")
