@@ -7,7 +7,7 @@ on:
         required: true
 
 jobs:
-  stop-services:
+  Reboot:
     runs-on: ubuntu-latest
 
     steps:
