@@ -1,20 +1,19 @@
 name: Update EC2 via SSM
-
 on:
   workflow_dispatch:
-   inputs:
+    inputs:
       instance-ids:
         description: "Comma-separated EC2 Instance IDs"
         required: true
+
 jobs:
-  update-ec2:
-   runs-on: ubuntu-latest  # Use GitHub-hosted runner
+  stop-services:
+    runs-on: ubuntu-latest
 
-
-   steps:
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -22,8 +21,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2  # Change to your region
 
-      - name: Make shell script executable
-        run: chmod +x patch_without_reboot.sh
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"   # Or another stable version like 3.11
 
-      - name: Run shell script
-        run: ./patch_without_reboot.sh "${{ github.event.inputs.instance-ids }}"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install boto3
+
+      - name: Run Python script
+        run: python patch_without_reboot.py
+        env:
+          InstanceID: ${{ github.event.inputs.InstanceID }}
+          region: us-west-2
