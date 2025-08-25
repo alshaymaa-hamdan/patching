@@ -6,6 +6,7 @@ def main():
     # Jenkins will provide these as environment variables
     instance_ids = os.getenv("InstanceID")  # e.g. "i-0387b2fe22897d04a,i-0581419c27f336162"
     region = "us-west-2"
+    instance_ids_list = [i.strip() for i in instance_id.split(",") if i.strip()]
  
     if not instance_ids:
         raise ValueError("Missing required environment variable: instance_ids")
@@ -32,7 +33,7 @@ def main():
     '''
  
     response = client.send_command(
-        Targets=[{"Key": "instanceIds", "Values": instance_ids.split(",")}],
+        Targets=[{"Key": "instanceIds", "Values": instance_ids_list}],
         DocumentName="AWS-RunPowerShellScript",
         Comment="Starting Qlik services",
         Parameters={"commands": [ps_script]}
