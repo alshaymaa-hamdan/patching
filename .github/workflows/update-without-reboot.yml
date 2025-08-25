@@ -2,7 +2,7 @@ name: Update EC2 via SSM
 on:
   workflow_dispatch:
     inputs:
-      instance-ids:
+      InstanceID:
         description: "Comma-separated EC2 Instance IDs"
         required: true
 
