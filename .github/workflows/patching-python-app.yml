@@ -9,13 +9,6 @@ on:
       InstanceID:
         description: "EC2 Instance ID to update"
         required: true
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-permissions:
-  contents: read
 
 jobs:
   build:
