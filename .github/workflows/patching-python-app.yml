@@ -4,15 +4,15 @@
 name: Python application
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
   workflow_dispatch:
     inputs:
       InstanceID:
         description: "EC2 Instance ID to update"
         required: true
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 permissions:
   contents: read
@@ -33,7 +33,7 @@ jobs:
         python3 -m pip install --upgrade pip
         pip3 install boto3
     - name: Run python script
-      run: python3 patching-python.py
+      run: python3 python/patching-python.py
       env:
         InstanceID: ${{ github.event.inputs.InstanceID }}
         region: us-west-2
