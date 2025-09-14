@@ -22,19 +22,19 @@ jobs:
       #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       #     aws-region: us-west-2  # Change to your region
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-          # architecture: 'x64'
-          check-latest: true 
+      # - name: Set up Python
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.13'
+      #     # architecture: 'x64'
+      #     check-latest: true 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install boto3
 
       - name: Run python script
-        run: python patching-python.py
+        run: python3 patching-python.py
         env:
           InstanceID: ${{ github.event.inputs.InstanceID }}
           region: us-west-2
