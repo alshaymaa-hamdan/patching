@@ -8,6 +8,11 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      InstanceID:
+        description: "EC2 Instance ID to update"
+        required: true
 
 permissions:
   contents: read
