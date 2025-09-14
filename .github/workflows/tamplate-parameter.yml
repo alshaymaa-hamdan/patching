@@ -1,12 +1,12 @@
-# Use this workflow template to create workflows that runs python scripts with parameters/default parameters.
-#if the python script does not have a default parameter remove its option.
+# Use this workflow template to create workflows that run Python scripts with parameters/default parameters.
+# If the Python script does not have a default parameter name, remove its option.
 
 name: template
 
 on:
   workflow_dispatch:
     inputs:
-      parameter:
+      parameter_name:
         description: "Write input description"
         required: true
         default: "default value"
@@ -29,4 +29,4 @@ jobs:
     - name: Run <python script>
       run: python3 path/script.py
       env:
-        InstanceID: ${{ github.event.inputs.parameter }}
+        InstanceID: ${{ github.event.inputs.parameter_name }}
