@@ -1,4 +1,6 @@
-name: template
+# Use this workflow template to create workflows that run Python scripts manually.
+
+name: template-manual
 
 on:
   workflow_dispatch:
