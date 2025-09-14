@@ -9,7 +9,7 @@ on:
 
 jobs:
   update-ec2:
-    runs-on: ubuntu-latest  # Use GitHub-hosted runner
+    runs-on: us-west-2  # Use self-hosted runner
 
     steps:
       - name: Checkout code
