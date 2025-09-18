@@ -1,0 +1,28 @@
+# Use this workflow template to create workflows that run Python scripts with default parameters and crons.
+# If the Python script does not have a default parameter, remove the option.
+
+name: template
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *" # make sure the timezone matches
+
+jobs:
+  build:
+    runs-on: runner-label
+    steps:
+    - name: Repo Checkout (Clone)
+      uses: actions/checkout@v5
+    
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        pip3 install boto3
+        
+    - name: Run <python script>
+      run: python3 path/script.py
+     
